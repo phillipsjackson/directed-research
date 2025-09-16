@@ -53,23 +53,43 @@
 
 %%% The "real" document content comes below...
 
-\title{Brief Article}
-\author{The Author}
+\title{Telemetry Based Optimization for Finding a New Optimal Racing Line on a Racetrack}
+\author{Jack Phillips}
 %\date{} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed 
 
 \begin{document}
 \maketitle
 
-\section{First section}
+\section{I.	Introduction}
 
-Your text goes here.
+Background: With New Regulations coming into Formula One in 2026, it is highly likely that the optimal racing line for most tracks will change slightly. The cars will be lighter, have a new DRS (Drag-Reduction System), and will all around react differently than they would have with the previous regulations. 
+Literature Review: Every Formula One team conducts their own research daily, using telemetry-based simulations to find out optimal racing lines for their car but plenty of independent study has been done as well. The obvious inconsistencies in these previously published studies are that they are not including the new regulations and the data they found will likely become obsolete. It is estimated currently that the cars will have around 30% less downforce and 55% less drag resulting in potential extreme differences in braking and cornering strategy. The cars will also now have an active aerodynamics system (X-mode for low drag; Z-mode for downforce), rather than a manual one like previously (DRS on DRS off).
+It is estimated currently that the cars will have around 30% less downforce and 55% less drag resulting in potential extreme differences in braking and cornering strategy. The cars will also now have an active aerodynamics system (X-mode for low drag; Z-mode for downforce), rather than a manual one like previously (DRS on DRS off). [Reference Lawrence Baretto article from F1] Previous research has been done on optimization and racing line specifically from companies like AWS who are incorporating AI to give real time feedback and data to viewers during races but even their data will be skewed next season with new regulations. 
 
-\subsection{A subsection}
+Research Question and Hypothesis: With the new cars being all around more agile next season, they will be able to race closer than ever, which will massively change how they can race wheel to wheel and battle much further into corners. This means that rather than overtakes being a matter of who can brake the latest, drivers will be able to control their cars faster around corners and with increased precision. The goal of this project is to find a faster, more optimal racing line that will show how drivers may now be able to overtake in corners where it was previously deemed nearly impossible.
+The newly regulated cars are projected to be able to corner faster and sharper than previous years. Using data from previously regulated cars a fairly exact racing line has been created for each car. These racing lines previously did not differ much year to year nearly as much as they are predicted to this year. The main questions of this project are to find a new racing line, try to understand how the cars will be able to race closer together, and find out if specific corners will be possible to overtake on which they weren’t before. It is expected that the racing line will rely less on straight line speed and braking and more on carrying speed through corners.
 
-More text.
 
-\subsection{Another subsection}
+\subsection{II. Methodology}
+
+Algorithms: The model will require numerous algorithms in order to create a realistic simulation that will provide meaningful data. Examples are vehicle dynamics algorithms including multi-body dynamics like suspension and steering, the magic formula tire model, as well as the friction ellipse. Aerodynamics algorithms will also be used such as computational fluid dynamics and wake effects. Some sort of reinforcement learning model will also be used to train agents to control a vehicle rather than using a human driver. There should also be motion control algorithms and force feedback algorithms in order to simulate the inertial effects on the driver (G-force). 
+Data Extraction/ Platform Use: Finding good data is going to be somewhat difficult as lots of data is hidden behind a paywall or just not open to the public. The FIA releases official classification pdfs including tire usage, sector times and fastest laps after every session which could be used. OpenF1 API and FastF1 are both community driven unofficial telemetry APIs which could have valuable data as well. In terms of simulators, OpenFOAM and SU2 are both open-source aerodynamics simulators. rFactor 2, CarSim and Simcenter Amesim are all available options for vehicle dynamics simulators, Simcenter Amesim has a possible student license that could be used. rFactor 2 could also be used in combination as a driver in the loop simulator which would give the inertial feedback from the driver. C++ or Python will be used for the text editing of these models.
+Statistical Analysis/ Algorithms Exploration: Testing the model will include a lot of sending the car into corners at different speeds and from different angles to see how wheel-to-wheel racing could be tighter and go on for longer through corners. It will also test the optimal racing line in these corners without another car involved to focus on simply producing the fastest lap. These will also be used with the reinforcement model to see how the two drivers may battle within a given corner and the model will continue to learn from itself to test the limits of the new more agile cars. Running the simulator with one or two cars in a continuous reinforcement model using neural networks to learn from itself should allow for optimization to occur.
+Ethical Considerations: There aren’t many ethical dilemmas that come up in building a model to find a racing line as it is an individual project and there should be no worry about having data being stolen by a Formula One team because it likely would never happen with how strictly they operate in-house. The model conducting simulations between two drivers in a corner may end up in the two drivers crashing into each other often until both cars in the model learn to race as close together as possible. Crashes are somewhat inevitable in this case. However, the safety of the modern F1 car is extremely good and a driver hasn’t not walked away from a crash since 2014 meaning that there should be no ethical dilemmas in driver safety.
+Ethical considerations of this project are that in theory by creating a perfect simulator, an agent created by ai could possibly become a better driver than a Formula 1 driver, leaving people with dissatisfaction towards weaker drivers not getting the maximum potential out of their car.
+
+
+\subsection{III. Expected Outcomes and Implications}
+
+The expected outcome of this model will be a simulation in which the cars are able to maneuver much quicker than before through corners and also see large differences in cornering strategy and wheel-to-wheel racing. A typical battle between two drivers coming into a corner off of a straight should not result in whichever driver brakes later winning the corner and taking the position. The cars should be able to battle further into the corner and positioning and speed-carrying should matter more than simply braking. The simulation should show more possibilities for drivers to take less optimal racing lines in order to get better position throughout the entire corner. Overtaking on corners that were not previously thought possible to make a move into should also be seen. It is expected that the model shows a slight decrease in overtaking on straights and a significant increase in overtaking in corners.
+
+\subsection {IV. Timeline}
+
+Splitting the project up into 15 weeks, weeks 1-3 should be about creating a proposal and model to then figure out what the best and most accessible tools are to use. Weeks 4-6 should be about tweaking and perfecting the model so tests will show useful data. Weeks 7-12 should include running the program and finding results to test further to start seeing the implied results of the program. Finally, Weeks 13-15 should be about gathering the results, breaking them down into how they could be used in Formula One, and hopefully publishing them.
+
+\subsection {V. References}
+
 
 here a section add by Simon
 
