@@ -1,1 +1,5 @@
 .vs/*
+*.aux
+*.pdf
+*.log
+*.synctex.gz
