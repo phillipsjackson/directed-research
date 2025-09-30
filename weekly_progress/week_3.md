@@ -12,5 +12,13 @@
 
 
 # TODO:
-- Trustworthy AI
+- (finish project)
+- Modify script to generate 10 (or hundreds?) of experiments replicate:
+  + grid size increases
+  + simulation metrics: number of steps, size of the queue (need 
+    + number of steps,
+    + max size of the queue (need to pass the result sthorugh list)
+    + ...
+  + plot results (matplolib) 
+- Trustworthy AI: Read suggested reading
 
