@@ -1,0 +1,115 @@
+\documentclass{article}
+\usepackage[linesnumbered,ruled,vlined]{algorithm2e}
+
+\begin{document}
+
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\SetKwComment{Comment}{\# }{}
+
+\Comment{imported random library for grid creation and dirt randomness}
+
+\SetKwFunction{MakeRandomGrid}{make\_random\_grid}
+\SetKwFunction{PrintGrid}{print\_grid}
+\SetKwFunction{BFS}{bfs}
+\SetKwFunction{Vacuum}{vacuum\_world\_bfs}
+
+\BlankLine
+\MakeRandomGrid{rows, cols, dirt\_prob}\;
+\Begin{
+    \Return $[[1 \ \textbf{if } random.random() < dirt\_prob \ \textbf{else } 0 \ \textbf{for } \_ \textbf{ in range}(cols)] \ \textbf{for } \_ \textbf{ in range}(rows)]$\;
+    \Comment{randomly puts dirt in cells}
+}
+
+\BlankLine
+\PrintGrid{grid, agent\_pos}\;
+\Begin{
+    \For{$x \gets 0$ \KwTo len(grid)}{
+        \For{$y \gets 0$ \KwTo len(grid[0])}{
+            \If{$(x,y) == agent\_pos$}{
+                print("[A]", end=" ")\; \Comment{finds agent position and signifies it}
+            }
+            \Else{
+                print(f"[grid[x][y]]", end=" ")\; \Comment{takes inputs and adds them to grid creation}
+            }
+        }
+        print()\;
+    }
+    print()\;
+}
+
+\BlankLine
+\BFS{start, targets, m, n}\;
+\Begin{
+    queue $\gets$ [(start, [])]\; \Comment{list as queue for future direction}
+    visited $\gets$ set([start])\; \Comment{set to track visited cells}
+    
+    \While{queue not empty}{
+        (x,y), path $\gets$ queue.pop(0)\; \Comment{pop first element}
+        
+        \If{$(x,y) \in targets$}{
+            \Return path + [(x,y)]\; \Comment{reached a dirty cell}
+        }
+        
+        \Comment{Explore neighboring cells}
+        \ForEach{(dx,dy) in [(0,1), (0,-1), (1,0), (-1,0)]}{ \Comment{searches 4 neighbors}
+            nx $\gets$ x + dx\;
+            ny $\gets$ y + dy\;
+            
+            \If{$0 \leq nx < m$ \textbf{ and } $0 \leq ny < n$ \textbf{ and } $(nx,ny) \notin visited$}{
+                visited.add((nx,ny))\; \Comment{adds to visited}
+                queue.append(((nx,ny), path + [(x,y)]))\; \Comment{adds to queue}
+            }
+        }
+    }
+    \Return None\;
+}
+
+\BlankLine
+\Vacuum{}\;
+\Begin{
+    m $\gets$ int(input("Enter number of rows (m): "))\;
+    n $\gets$ int(input("Enter number of columns (n): "))\;
+    dirt\_prob $\gets$ 0.5\; \Comment{probability of a cell being dirty set as always 50\%}
+    
+    grid $\gets$ \MakeRandomGrid{m, n, dirt\_prob}\; \Comment{runs grid function}
+    agent\_pos $\gets$ (0,0)\;
+    
+    print("Initial Grid:")\;
+    \PrintGrid{grid, agent\_pos}\; \Comment{initial grid with agent in first cell}
+    
+    steps $\gets 0$ \; \Comment{tracks moves}
+    cleans $\gets 0$ \; \Comment{tracks cleans}
+    
+    \While{any(1 in row for row in grid)}{ \Comment{checks for dirty cells}
+        dirty\_cells $\gets \{(x,y) \mid grid[x][y] == 1 \}$\; \Comment{find dirty cells}
+        
+        path $\gets$ \BFS(agent\_pos, dirty\_cells, m, n)\; \Comment{shortest path to dirt}
+        
+        \ForEach{pos in path}{
+            agent\_pos $\gets$ pos\;
+            steps++\; \Comment{increment steps}
+            
+            x,y $\gets$ agent\_pos\;
+            \If{$grid[x][y] == 1$}{ \; \Comment{checks if cell is clean}
+                grid[x][y] $\gets 0$\; \Comment{clean cell}
+                cleans++\;
+                action $\gets$ "Cleaned"\;
+            }
+            \Else{
+                action $\gets$ "Moved"\;
+            }
+            
+            print(f"Step \{steps\}: Agent moved to \{agent\_pos\} → \{action\}")\; \Comment{prints action taken}
+            \PrintGrid{grid, agent\_pos}\; \Comment{reprint updated grid}
+        }
+    }
+    print(f"Vacuum done in \{steps\} steps with \{cleans\} cleans")\; \Comment{final efficiency evaluation}
+}
+
+\Vacuum{}\; \Comment{runs the function}
+
+\end{algorithm}
+
+\end{document}
+
