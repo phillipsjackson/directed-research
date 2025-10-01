@@ -29,6 +29,9 @@
 \usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
 \usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
 \usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+\usepackage{url}        
+\usepackage{hyperref}   
+
 % These packages are all incorporated in the memoir class to one degree or another...
 
 %%% HEADERS & FOOTERS
@@ -49,11 +52,12 @@
 \renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
 \renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
 
+
 %%% END Article customizations
 
 %%% The "real" document content comes below...
 
-\title{Telemetry Based Optimization for Finding a New Optimal Racing Line on a Racetrack}
+\title{AI Based Optimization to Develop New Overtaking Zones in Formula One}
 \author{Jack Phillips}
 %\date{} % Activate to display a given date or no date (if empty),
          % otherwise the current date is printed 
@@ -61,43 +65,77 @@
 \begin{document}
 \maketitle
 
-\section{I.	Introduction}
+\section{Introduction}
 
-Background: With New Regulations coming into Formula One in 2026, it is highly likely that the optimal racing line for most tracks will change slightly. The cars will be lighter, have a new DRS (Drag-Reduction System), and will all around react differently than they would have with the previous regulations. 
+\subsection {Background:} With New Regulations coming into Formula One in 2026, it is highly likely that the optimal racing line for most tracks will change slightly. The cars will be lighter, have a new DRS (Drag-Reduction System), and will all around react differently than they would have with the previous regulations. These new regulations F1 is implementing are meant for the cars to be able to drive closer together than ever in terms of being side by side. This should bring in more opportunities for overtaking at corners that are relatively rare for cars to have overtaken at previously. It must be stated that overtaking in general is expected to see a slight decrease on straights which is where the majority of overtaking happens with the 2025 regulations. Overtaking in corners should see a spike but until the drivers understand the longer wheel to wheel racing it may appear that cars are overtaking less at the start of the season.
 
-Literature Review: Every Formula One team conducts their own research daily, using telemetry-based simulations to find out optimal racing lines for their car but plenty of independent study has been done as well. The obvious inconsistencies in these previously published studies are that they are not including the new regulations and the data they found will likely become obsolete. It is estimated currently that the cars will have around 30\% less downforce and 55\% less drag resulting in potential extreme differences in braking and cornering strategy. The cars will also now have an active aerodynamics system (X-mode for low drag; Z-mode for downforce), rather than a manual one like previously (DRS on DRS off).
-It is estimated currently that the cars will have around 30\% less downforce and 55\% less drag resulting in potential extreme differences in braking and cornering strategy. The cars will also now have an active aerodynamics system (X-mode for low drag; Z-mode for downforce), rather than a manual one like previously (DRS on DRS off). [3] Previous research has been done on optimization and racing line specifically from companies like AWS who are incorporating AI to give real time feedback and data to viewers during races but even their data will be skewed next season with new regulations [1]. 
+\subsection {Literature Review:} Every Formula One team conducts their own research daily, using telemetry-based simulations to find out optimal racing lines for their car as well as how their car will race agsint the other cars in the field but independent study has been done on overtaking as well however it is more rare. The obvious inconsistencies in these previously published studies are that they are not including the new regulations and the data they found will likely become obsolete. Formula E has hasd more research done into overtaking as Formula E requires a lot more usage of the battery in the car which can store and use energy to help with overtakes. With the 2026 regulations the F1 car is going to look and act more like the Formula E cars than ever before and battery deployment will also be a massive factor in overtaking around corners. A study published by Xuze Liu, Abbas Fotouhi, and Daniel J. Auger [5] delved into this looking into energy management and how efficient battery usage leads to longer overtakes around corners. It is estimated currently that the cars will have around 30\% less downforce and 55\% less drag resulting in potential extreme differences in braking and cornering strategy making it closer to Formula E. The cars will also now have an active aerodynamics system (X-mode for low drag; Z-mode for downforce), rather than a manual one like previously (DRS on DRS off). [3] What X-mode and Z-mode will do is make it so the aerodynamics of the car will actively change allowing for more or less drag. Rather than having 2 or 3 DRS zones per track there will now be no DRS zones and the cars willa ct differently on the straights and corners. The Previous DRS system involved opening the rear wing on straights to increase speed by around 10-12 kph only on straights and only when within 1 second of the car ahead. Previous research has been done on optimization and racing line specifically from companies like AWS who are incorporating AI to give real time feedback and data to viewers during races but even their data will be skewed next season with new regulations adn they will have to adapt. [1]. 
 
-Research Question and Hypothesis: The newly regulated cars are projected to be able to corner faster and sharper than previous years. Using data from previously regulated cars a fairly exact racing line has been created for each car. These racing lines previously did not differ much year to year nearly as much as they are predicted to this year. The main questions of this project are to select a specific corner from a track and see how wheel to wheel racing and overtaking can be changed and lead to more possibilties under the new regulations. It is expected that the racing line will rely less on straight line speed and braking and more on carrying speed through corners resulting in much longer battles and brand new areas for overtaking.
-
-
-\subsection{II. Methodology}
-
-Algorithms: The model will require lots of algorithms in order to become realistic enought to provide feeback but most of these algorithms should be built in to the simulator itself. Aerodynamics, multi-body dynamics, computational fluid dynamics, wake effects, motion control, and force feedback will all be included. 2 reinforcement learning models will need to be used to mod and train AI agents to control a vehicle and race each other from varying positions and speeds around a given corner. [2] Observation space and and action space will give the agent information of the environment and what it can do with some sort of reward function relating to overtaking the other car or defending against the other car.
-
-Data Extraction/ Platform Use: The FIA releases official classification pdfs including tire usage, sector times and fastest laps after every session which could be used. OpenF1 API and FastF1 are both community driven unofficial telemetry APIs which could have valuable data as well. In terms of simulators, rFactor 2 has the most possibilties for creating a mod and AI agents as the community is very strong having published downloaded mods such as a prototype 2026 regulated car. rFactor 2 allows for easy integration of reinforcement models and already has numerous amounts of highly realistic feedback options that will provide stronoger infromation back to the reinforcement model.  rFactor 2 would be preferred to a simulaotr such as CARLA [4] as it does not provide the same default map that would need to be customized every time and rather has preloadable tracks and track design features. Python will be used for the text editing of these models.
-
-Statistical Analysis/ Algorithms Exploration: Testing the model will include a lot of sending the car into corners at different speeds and from different angles to see how wheel-to-wheel racing could be tighter and go on for longer through corners. These will also be used with the reinforcement model to see how the two drivers may battle within a given corner and the model will continue to learn from itself to test the limits of the new more agile cars. Running the simulator with two cars in a continuous reinforcement model using neural networks to learn from itself should allow for optimization to occur over the course of time. 
-
-Ethical Considerations: Ethical considerations of this project are that in theory by creating a perfect simulator, an agent created by AI could possibly become a better driver than a Formula 1 driver, leaving people with dissatisfaction towards weaker drivers not getting the maximum potential out of their car. It's rather unlikely however that this becomes an issue as most drivers are still better at adapting to changing track conditions and weather than an AI agent is.
+\subsection {Research Question and Hypothesis:} The newly regulated cars are projected to be able to corner faster and sharper than previous years. Using data from previously regulated cars a fairly exact racing line has been created for each car. These racing lines previously did not differ much year to year nearly as much as they are predicted to this year. The main questions of this project are to select a specific corner from a track and see how wheel to wheel racing and overtaking can be changed and lead to more possibilties under the new regulations. It is expected that the racing line will rely less on straight line speed and braking and more on carrying speed through corners resulting in much longer battles and brand new areas for overtaking. By sending two cars through a series of corners over and over again using an Ai agent to pilot them, the goal is to see the agents create new battles on the corner and use unique and different racing lines to try to defend and overtake each other showing a new area to overtake that would previously be seen as a very difficult move or impossible.
 
 
-\subsection{III. Expected Outcomes and Implications}
+\section{Methodology}
 
-The expected outcome of this model will be a simulation in which the cars are able to maneuver much quicker than before through corners and also see large differences in cornering strategy and wheel-to-wheel racing. A typical battle between two drivers coming into a corner off of a straight should not result in whichever driver brakes later winning the corner and taking the position. The cars should be able to battle further into the corner and positioning and speed-carrying should matter more than simply braking. The simulation should show more possibilities for drivers to take less optimal racing lines in order to get better position throughout the entire corner. Overtaking on corners that were not previously thought possible to make a move into should also be seen. It is expected that the model shows a slight decrease in overtaking on straights and a significant increase in overtaking in corners.
+\subsection {Algorithms:} The model will require lots of algorithms in order to become realistic enought to provide feeback but most of these algorithms should be built in to the simulator itself. Aerodynamics, multi-body dynamics, computational fluid dynamics, wake effects, motion control, and force feedback will all be included. Some sort of reinforcement learning models will need to be used to mod and train AI agents to control a vehicle and race each other from varying positions and speeds around a given corner. [2] Observation space and and action space will give the agent information of the environment and what it can do with some sort of reward function relating to overtaking the other car or defending against the other car. The agents are being trained to have unique driver behavior to show new results.
 
-The expected outcome of this model is to see a new opportunity for overtaking to happen in a given corner and much longer wheel to wheel racing battles going on due to the cars being more agile. A typical battle between two drivers coming into a corner off of a straight should not result in whichever driver brakes later winning the corner and taking the position. There should be a less noticeble amount of braking and more speed being carried into corners with more emphasis on the desired line of the driver than the braking point. 
+\subsection {Data Extraction/ Platform Use:} The FIA releases official classification pdfs including tire usage, sector times and fastest laps after every session which could be used. OpenF1 API [6] and FastF1 [7] are both community driven unofficial telemetry APIs which could have valuable data as well. In terms of simulators, rFactor 2 and Assetto Corsa [8] have the most possibilties for creating a mod and AI agents as the communities iare very strong having published downloaded mods such as a prototype 2026 regulated car. Both allow for easy integration of reinforcement models and already have numerous amounts of highly realistic feedback options that will provide stronoger infromation back to the reinforcement model.  Assetto Corsa will be used over rFactor 2 as it requires less GPU power to run and provide results and the laptop this research will be conducted on does not support rFactor 2's intensive graphics. Assetto Corsa would be preferred to a simulator such as CARLA [4] as it does not provide the same default map that would need to be customized every time and rather has preloadable tracks and track design features. The Assetto Corsa community have also made a web browser based free database with all sorts of downloadbale options from LIDAR scanned tracks to protoype vehicles. Python will be used for the text editing and creation of these models.
 
-\subsection {IV. Timeline}
+\subsection {Statistical Analysis/ Algorithms Exploration:} Testing the model will include a lot of sending the car into corners at different speeds and from different angles to see how wheel-to-wheel racing could be tighter and go on for longer through corners. These will also be used with the reinforcement model to see how the two drivers may battle within a given corner and the model will continue to learn from itself to test the limits of the new more agile cars. Running the simulator with two cars in a continuous reinforcement model using neural networks to learn from itself should allow for optimization to occur over the course of time. These two agents will be run against each other in a local server. To augment the AI already in Assetto Corsa with our own, a python client will be written to read telemetry and send control inputs further implemented with AI logic like a reinforcement learning agent with a heuristic controller. The two cars will then be spawned in on a given set of corners using the content manager and the AI will be hooked up to each car individually. The cars will learn based off their own telemetry and output control commands. The model will run continously by creating a modded layout where the cars spawn in at an exact location on the track and create a new finish line so that once they cross the program instantly runs again. An auto-reset script will be written as well so that in the case of a crash and no driver being able to reach the finish line, the model will go back to where it started and respawn them.
 
-The timeline for the project is somewhat flexible at this point as it is hard to tell what will be possible and impopssible until the project progresses. The goal is to be done with the actual model and have some sort of feeback given by it by early November so a paper can then be written with conclusions about what was found. The first few weeks are going to be full of setting up the model and figuring out what the possibilities are and the weeks following that will hopefully be capitalizing on what is possible and creating and running the model.
+\subsection {Ethical Considerations:} Ethical considerations of this project are that in theory by creating a perfect simulator, an agent created by AI could possibly become a better driver than a Formula 1 driver, leaving people with dissatisfaction towards weaker drivers not getting the maximum potential out of their car. It's rather unlikely however that this becomes an issue as most drivers are still better at adapting to changing track conditions and weather than an AI agent is.
 
-\subsection {V. References}
+
+\section {Expected Outcomes and Implications}
+
+The expected outcome of this model is to see a new opportunity for overtaking to happen in a given corner and much longer wheel to wheel racing battles going on due to the cars being more agile. Success metrics will be created to give the agent and the researcher feedback on progress. Any time an overtake, crash, successful defense, or a car leaves the track, that data will be measured. Other heuristics such as speed at braking point, speed at apex, and distance between the two cars will be tracked as well to give feedback and show what changes are happening. A typical battle between two drivers coming into a corner off of a straight should not result in whichever driver brakes later winning the corner and taking the position. There should be a less noticeble amount of braking and more speed being carried into corners with more emphasis on the desired line of the driver than the braking point. 
+
+\section {Timeline}
+
+The timeline for the project is to create, run, and tweak the agent over the month of October for the most part. This will contain learning how to mod and create intelligent agents in Assetto Corsa and refining those agents so that they are working properly to show data whether it proves the hypothesis or not.  November will contain trying to understand what the data has shown us, if it did or did not prove our hypothesis, and what has been learned based off of that. If nothing has been proven research into why that has happened will occur. Finally, December will contain the conduction of a research report of the findings and a presentation as well.  
+
+
+\begin{thebibliography}{9}
+
+\bibitem{aws}
+A. Staff, ``How AWS and F1 are bringing a new level of insight to the 2024 British Grand Prix,'' \emph{UK About Amazon}. [Online]. Available: \url{https://www.aboutamazon.co.uk/news/aws/f1-british-grand-prix-silverstone}. [Accessed: Sep. 23, 2025].
+
+\bibitem{vs-games}
+K. Bugeja, S. Spina, and F. Buhagiar, ``Telemetry-based optimisation for user training in racing simulators,'' in \emph{Proc. 9th Int. Conf. Virtual Worlds and Games for Serious Applications (VS-Games)}, Sep. 2017, pp. 31--38. doi: 10.1109/vs-games.2017.8055808.
+
+\bibitem{f1regs}
+L. Barretto, ``FIA unveils formula 1 regulations for 2026 and beyond,'' \emph{Formula 1\textregistered}. [Online]. Available: \url{https://www.formula1.com/en/latest/article/fia-unveils-formula-1-regulations-for-2026-and-beyond-featuring-more-agile.75qJiYOHXgeJqsVQtDr2UB}. [Accessed: Sep. 23, 2025].
+
+\bibitem{carla}
+``First steps with Carla,'' \emph{CARLA Simulator}. [Online]. Available: \url{https://carla.readthedocs.io/en/latest/tuto_first_steps/}. [Accessed: Sep. 23, 2025].
+
+\bibitem{liu}
+X. Liu, A. Fotouhi, and D. J. Auger, ``Energy-optimal overtaking manoeuvres of Formula-E cars,'' \emph{Vehicle System Dynamics}, vol. 61, no. 8, pp. 2023--2050, Jul. 2022. doi: 10.1080/00423114.2022.2096082.
+
+\bibitem{openf1}
+``Introduction,'' \emph{OpenF1 API – Real-time and historical Formula 1 data}. [Online]. Available: \url{https://openf1.org/}. [Accessed: Oct. 1, 2025].
+
+\bibitem{fastf1}
+``FastF1,'' \emph{FastF1 3.6.1 Documentation}. [Online]. Available: \url{https://docs.fastf1.dev/}. [Accessed: Oct. 1, 2025].
+
+\bibitem{ac}
+``Assetto Corsa,'' \emph{Wikipedia}. [Online]. Available: \url{https://en.wikipedia.org/wiki/Assetto_Corsa}. [Accessed: Oct. 1, 2025].
+
+\bibitem{rfactor}
+``rFactor simulations,'' \emph{rFactor.net}. [Online]. Available: \url{https://www.rfactor.net/#about}. [Accessed: Oct. 1, 2025].
+
+\end{thebibliography}
+
+\end{document}
+
 
 
 [1] A. staff, “How AWS and F1 are bringing a new level of insight to the 2024 British Grand Prix,” UK About Amazon, https://www.aboutamazon.co.uk/news/aws/f1-british-grand-prix-silverstone (accessed Sep. 23, 2025). 
 [2] K. Bugeja, S. Spina, and F. Buhagiar, “Telemetry-based optimisation for user training in racing simulators,” 2017 9th International Conference on Virtual Worlds and Games for Serious Applications (VS-Games), pp. 31–38, Sep. 2017. doi:10.1109/vs-games.2017.8055808 
 [3] L. Barretto, “FIA unveils formula 1 regulations for 2026 and beyond,” Formula 1®, https://www.formula1.com/en/latest/article/fia-unveils-formula-1-regulations-for-2026-and-beyond-featuring-more-agile.75qJiYOHXgeJqsVQtDr2UB (accessed Sep. 23, 2025). 
-[4] “First steps with Carla,” First steps - CARLA Simulator, https://carla.readthedocs.io/en/latest/tuto_first_steps/ (accessed Sep. 23, 2025). 
-
+[4] “First steps with Carla,” First steps - CARLA Simulator, https://carla.readthedocs.io/en/latest/tuto\_first\_steps/ (accessed Sep. 23, 2025). 
+[5] X. Liu, A. Fotouhi, and D. J. Auger, “Energy-optimal overtaking manoeuvres of Formula-e Cars,” Vehicle System Dynamics, vol. 61, no. 8, pp. 2023–2050, Jul. 2022. doi:10.1080/00423114.2022.2096082 
+[6] “Introduction,” OpenF1 API | Real-time and historical Formula 1 data, https://openf1.org/ (accessed Oct. 1, 2025). 
+[7] “FASTF1¶,” FastF1 3.6.1, https://docs.fastf1.dev/ (accessed Oct. 1, 2025). 
+[8] “Assetto Corsa,” Wikipedia, https://en.wikipedia.org/wiki/Assetto\_Corsa (accessed Oct. 1, 2025). 
+[9] “Rfactor simulations,” rFactor Simulations, https://www.rfactor.net/\#about (accessed Oct. 1, 2025). 
 \end{document}
