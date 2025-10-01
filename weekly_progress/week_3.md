@@ -16,6 +16,7 @@
 # TODO for next week:
 
 - (finish research proposal)
+- Read comments on Canvas and issues on github
 - Modify the script of miin-project 1 to generate 10 (or hundreds?) of experiments replicate:
   + grid size increases
   + return simulation metrics: 
