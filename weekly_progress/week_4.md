@@ -15,11 +15,11 @@
 
 # TODO for next week:
 - Mini project 2:
-  + What are neural network? 
+  + What are neural network?  Play and use  `mini_project_2/ann_expl.py` to illustrate your eplanation
   + Watch: https://www.youtube.com/watch?v=kbGu60QBx2o
-  + Can we explain what the 'weights' are doing?
+  + Can we explain what the 'weights' are doing in the neural network? document that on the Latex document
   + Write Latex report (with plots): 
-    -> focus on simple, complete explaination
+    -> focus on simple, complete explainations 
     -> a few words on neural network in general
 - Readings 
   + Paper on complexity
