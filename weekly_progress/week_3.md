@@ -30,4 +30,7 @@
   + config needed
   + mod capacity
   + ...
-
+# What I got done
+-finsihed research proposal
+- modified vacuum world to generate each world multiple times and then plot the data
+- researched modding on Assetto Corsa rather than rFactor2 
