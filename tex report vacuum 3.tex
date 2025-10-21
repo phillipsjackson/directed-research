@@ -1,0 +1,111 @@
+\documentclass{article}
+\usepackage[ruled,vlined]{algorithm2e}
+
+\begin{document}
+
+\section {Introduction}
+This is Tex code to explain Vacuum World Problem using breadth first search algorithm and shows effectiveness of the algorithm by running multiple times and creating a plot to show the data.
+
+
+\begin{algorithm}[H]
+\caption{Random Grid Generation}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{Number of rows $r$, columns $c$, dirt probability $p$}
+\Output{Grid $G$ of size $r \times c$ with dirty cells marked as 1}
+\BlankLine
+\For{$i \leftarrow 1$ \KwTo $r$}{
+    \For{$j \leftarrow 1$ \KwTo $c$}{
+        Generate random number $x \in [0,1]$\;
+        \eIf{$x < p$}{
+            $G[i][j] \leftarrow 1$ \tcp*[r]{Mark cell as dirty}
+        }{
+            $G[i][j] \leftarrow 0$ \tcp*[r]{Mark cell as clean}
+        }
+    }
+}
+\Return $G$
+\end{algorithm}
+
+This algorithm simply creates this grid.
+
+\begin{algorithm}[H]
+\caption{Breadth-First Search (BFS) for Nearest Dirty Cell}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{Starting position $s = (x_0, y_0)$, target cells $T$, grid dimensions $m, n$}
+\Output{Path $P$ to nearest dirty cell, maximum queue size $Q_{max}$}
+\BlankLine
+Initialize queue $Q \leftarrow [(s, [])]$\;
+Initialize visited set $V \leftarrow \{s\}$\;
+Set $Q_{max} \leftarrow 0$\;
+\While{$Q$ not empty}{
+    Dequeue $(x, y), P_{curr}$ from $Q$\;
+    \If{$(x, y) \in T$}{
+        \Return{$P_{curr} + [(x, y)], Q_{max}$}\;
+    }
+    \ForEach{$(dx, dy) \in \{(0,1), (0,-1), (1,0), (-1,0)\}$}{
+        $nx \leftarrow x + dx$\;
+        $ny \leftarrow y + dy$\;
+        \If{$0 \le nx < m$ and $0 \le ny < n$ and $(nx, ny) \notin V$}{
+            Add $(nx, ny)$ to $V$\;
+            Enqueue $((nx, ny), P_{curr} + [(x, y)])$ into $Q$\;
+            \If{$|Q| > Q_{max}$}{
+                $Q_{max} \leftarrow |Q|$
+            }
+        }
+    }
+}
+\Return{None, $Q_{max}$}
+\end{algorithm}
+
+This algorithm goes through the grid using a breadth first search to find the nearest dirty cell.
+
+\begin{algorithm}[H]
+\caption{Vacuum World BFS Simulation}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{Grid dimensions $m, n$}
+\Output{Total steps taken $S$, maximum queue size $Q_{max}$}
+\BlankLine
+Set $p \leftarrow 0.5$ \tcp*[r]{Dirt probability}
+$G \leftarrow$ \textbf{Random Grid Generation}$(m, n, p)$\;
+Set agent position $a \leftarrow (0, 0)$\;
+Initialize $S \leftarrow 0$, $C \leftarrow 0$, $Q_{max} \leftarrow 0$\;
+\While{any cell in $G$ is dirty}{
+    $T \leftarrow \{(x, y) \mid G[x][y] = 1\}$ \tcp*[r]{Set of dirty cells}
+    $(P, q) \leftarrow$ \textbf{BFS}$(a, T, m, n)$\;
+    \If{$q > Q_{max}$}{
+        $Q_{max} \leftarrow q$
+    }
+    \ForEach{$pos \in P$}{
+        $a \leftarrow pos$\;
+        $S \leftarrow S + 1$\;
+        \If{$G[a_x][a_y] = 1$}{
+            $G[a_x][a_y] \leftarrow 0$\;
+            $C \leftarrow C + 1$\;
+        }
+    }
+}
+\Return{$S, Q_{max}$}
+\end{algorithm}
+
+This algorithm basically runs the program
+
+\begin{algorithm}[H]
+\caption{Grid sizes and box and whisker plot}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{Initial grid size $(m_0, n_0)$, number of iterations $k$, runs per grid $r$}
+\Output{Box plots of steps and queue sizes}
+\BlankLine
+\For{$i \leftarrow 0$ \KwTo $k-1$}{
+    $m \leftarrow m_0 + 10i$\;
+    $n \leftarrow n_0 + 10i$\;
+    \For{$j \leftarrow 1$ \KwTo $r$}{
+        $(S, Q_{max}) \leftarrow$ \textbf{Vacuum World BFS Simulation}$(m, n)$\;
+        Record $S$ and $Q_{max}$\;
+    }
+    Plot boxplots of $S$ and $Q_{max}$ for each grid size\;
+}
+\end{algorithm}
+
+This algorithm makes multiple differerent grid and creates a box and whisker plot to show to results of how the previous algorithms effectiveness.
+
+\end{document}
