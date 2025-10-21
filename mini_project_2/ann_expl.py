@@ -69,7 +69,7 @@ df = pd.read_csv('iris_dataset.csv')
 df = shuffle(df)
 X = df.iloc[:, 0:4].values
 y = df[['target']].values
-encoder = OneHotEncoder(sparse=False)
+encoder = OneHotEncoder(sparse_output=False)
 y = encoder.fit_transform(y)
 
 train_data, test_data, train_labels, test_labels = train_test_split(
