@@ -149,10 +149,4 @@ sepal length (cm),sepal width (cm),petal length (cm),petal width (cm),target
 6.5,3.0,5.2,2.0,Iris-virginica
 6.2,3.4,5.4,2.3,Iris-virginica
 5.9,3.0,5.1,1.8,Iris-virginica
-4,3.5,3,1.5,NA
-6.8,2.7,5.3,1.6,NA
-6,2.2,7,1.5,NA
-4.7,3,5,1.5,NA
-4.7,3,6.6,2,NA
-5.5,2.5,4,3.5,NA
 
