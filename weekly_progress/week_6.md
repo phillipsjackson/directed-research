@@ -14,10 +14,11 @@
 
 # TODO for next week:
 
-- Mini project 2 final touches:
+- Mini project 2, epxloration:
   + Explore the _hyperparameters_ eta, n_iter, size of hidden layer and the percentage of data use for the test set. Explain each one and illustrte how changing them changes the accuracy of the results
   + add figures using \includegraphics
   + reference algorithm and figure using \label and \ref
+- General organisation: try to follow IMRAD : https://link.springer.com/article/10.1007/s10980-011-9674-3
 - Biblio: start looking into how to do a bibliography in Latex, export Mendeley in bibtex format
 
 
