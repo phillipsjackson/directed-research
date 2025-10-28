@@ -18,6 +18,7 @@
   + Explore the _hyperparameters_ eta, n_iter, size of hidden layer and the percentage of data use for the test set. Explain each one and illustrte how changing them changes the accuracy of the results
   + add figures using \includegraphics
   + reference algorithm and figure using \label and \ref
+  + optional: explore the weight: using the function show_weight, see what the weigh are ad try to see to which input/output they correspond (you can try to draw a diagram, you can use tikz again for that if you want, the LLM can help you for you).
 - General organisation: try to follow IMRAD : https://link.springer.com/article/10.1007/s10980-011-9674-3
 - Biblio: start looking into how to do a bibliography in Latex, export Mendeley in bibtex format
 
