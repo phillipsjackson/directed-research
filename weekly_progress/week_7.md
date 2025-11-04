@@ -2,8 +2,6 @@
 
 ## Previous week take home message:
 - 
-- 
-- 
 
 ## What was done this week
 
@@ -12,7 +10,6 @@
 
 # TODO for next week:
 
-- Mini project 2 final touches:
-  + add figure using \includegraphics
-  + reference algorithm and figure using \label and \ref
+- Submit mini project 2 exploration (Assignment 4)
+- Assignment 5: draft of bibliography using latex and bibtex
 
