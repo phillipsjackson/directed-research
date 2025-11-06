@@ -2,43 +2,37 @@
 \usepackage[linesnumbered,ruled,vlined]{algorithm2e}
 \usepackage{pgfplots}
 \usepackage{amsmath}
+\usepackage{float}
+\usepackage{graphicx}
 \pgfplotsset{compat=1.18}
 
 \begin{document}
 \section{What is a Neural Network?}
 
-A neural network is a computational model inspired by the structure of the human brain, designed to recognize patterns and make predictions by learning from data. It consists of layers of interconnected nodes (neurons) that transform input data through weighted connections and activation functions to produce outputs. For this neural network, rather than having the weights randomly assigned and the ANN gradually changing them itself, I have input multiple weights as to play around adn understand what chanign each weight does and why some are better and some are worse.
+A neural network is a computational model inspired by the structure of the human brain, \cite{Glorot2010} designed to recognize patterns and make predictions by learning from data. It consists of layers of interconnected nodes (neurons) that transform input data through weighted connections and activation functions to produce outputs. For this neural network, rather than having the weights randomly assigned and the ANN gradually changing them itself, I have input multiple weights as to play around adn understand what chanign each weight does and why some are better and some are worse. Weights close to zero affect the model less while weights that are further from zero have strong influence on the model.
 
-\section{Weights Explanation}
+\section{Weight Explanation}
+Weights in neural networks are the numerical values that determine how much each input influences the next hidden layer. The wieghts in  this model are w1 and w2 and then there is the bias of b1 and b2. These are then passed through a sigmoid. In order to find the right weights, they start by being intitialized randomly, then go through a forward pass which makes predictions, they calculate loss by comparing predictions with error, then they follow a backward pass which computes how much each weight contributed to the error, then the weights are updated. They go through this process for every hidden layer in the network.
+
+\section{Hyperparameters Explanation}
 The parameters in this ANN are input size, hidden size, eta, output size, and iterations. The input size and the output size are set as each piece of data in the iris set has four components meaning four inputs and there are only three types of iris each data point can be meaning there can only be three outputs. 
 \subsection{Hidden size} 
-Hidden size determines how many neurons are in the hidden layer and they mark how much complexity the network can take in. For example in this ANN I tried using 2 and that was insufficient for geting good results while using 20 caused overfitting. I found 6 to be a good amount of hidden layers.
+Hidden size determines how many neurons are in the hidden layer and they mark how much complexity the network can take in. For example in this ANN I tried using 2 and that was insufficient for getting good results while using 20 caused overfitting. I found 4 to be a good amount of hidden layers.
 \subsection{ETA} 
-Eta represents the learning rate and controls how big each weight adjustment is during the training. I settled on 0.04 for the eta as it was precise when the amount of iterations was sufficient. 0.01 for the eta resulted in poor percentages well under 50 percent while using an eta like 5.00 resulted in high learning speed but massive differences between each iteration with lots of inconcistencies and not a gradual display of the learning. 
+Eta represents the learning rate and controls how big each weight adjustment is during the training. I settled on 0.01 for the eta as it was precise when the amount of iterations was sufficient. 0.001 for the eta resulted in poor percentages well under 50 percent while using an eta like 5.00 resulted in high learning speed but massive differences between each iteration with lots of inconcistencies and not a gradual display of the learning. 
 \subsection{Iterations} 
-The number of iterations determines how many times the network processes the training data allowing it to gradually define weights and improve accuracy. In this ANN I created a loop that uses iterations as little as 10 and as much as 10,000. 10 iterations was insufficent and lead to poor accuracy while 10,000 did the same. The best amount of iterations for this model came from the the middle values which resulted in high accuracy while avoiding overfitting.
+The number of iterations determines how many times the network processes the training data allowing it to gradually define weights and improve accuracy. In this ANN I created a loop that uses iterations as little as 10 and as much as 10,000. Any amount of iterations under 1,000 proved to not have enough for the ANN to learn and provide a good accuracy while everything above 1,000 was fairly similar creating a sort of plateau. \ref{fig:accuracy_boxplot})
 \subsection{What is Overfitting?}
 Overfitting occurs when a neural network learns the training data too well, capturing not only the underlying patterns but also the random noise and outliers. This makes the model perform exceptionally on the training set but poorly on new, unseen data because it fails to generalize beyond what it has memorized. Overfitting typically happens when the model is too complex relative to the amount of data available, such as having too many layers or neurons. For example in this ANN, I found that overfitting occured when there were too many hidden layers or too many iterations. This resulted in the accuracy coming back at over 100 percent meaning that the network was not generalizing beyond what it has memorized and given new data points would perform extremely poorly.
 
 
-\begin{algorithm}[H]
-\caption{Training Multiple ANN Models with Different Iterations}
-\KwData{Training data $X_{train}$, training labels $y_{train}$}
-\KwIn{$input\_size = 4$, $hidden\_size = 6$, $output\_size = 3$, $learning\ rate\ \eta = 0.04$}
-\KwOut{Trained artificial neural networks for each iteration count}
 
-Define list of iteration counts: $N \leftarrow [10, 100, 500, 1000, 1500, 2500, 5000, 10000]$\;
-\ForEach{$n_i$ in $N$}{
-    Initialize ANN model with parameters $(input\_size, hidden\_size, output\_size, \eta, n_i)$\;
-    Train the model using $ANN.fit(X_{train}, y_{train})$\;
-    Print ``done'' to indicate training completion\;
-}
-\end{algorithm}
-This algorithm is the for loop I created to run the model with multiple iterations to test what would be around the best for getting a high accuracy.
+
 
 \begin{algorithm}[H]
 \SetAlgoLined
 \caption{Training the Neural Network via Backpropagation}
+\label{algo:backpropogation}
 \KwIn{Input data $X$, true labels $y$, learning rate $\eta$, number of iterations $n_{\text{iter}}$}
 \KwOut{Updated weights $W_1, W_2$ and biases $b_1, b_2$}
 
@@ -65,7 +59,7 @@ This algorithm is the for loop I created to run the model with multiple iteratio
 }
 
 \end{algorithm}
-This algorithm basically takes the parameters and weights and completes backpropogation then updating the weights and biases
+This algorithm, (algorithm \ref{algo:backpropogation})  basically takes the parameters and weights and completes backpropogation then updating the weights and biases
 
 \begin{algorithm}[H]
 \SetAlgoLined
@@ -87,47 +81,107 @@ $\text{predictions} \leftarrow \arg\max(f_{\text{out}}, \text{axis}=1)$ \\
 
 \end{algorithm}
 
-This algorithm (algorithm \ref{alg:predict}) takes the input feature matrix, trained weight matrices, trained bias vectors, sigmoid activation function, and then selects the index of the neuron with the highest activation for each. Then predicting the result.
+This algorithm, (algorithm \ref{algo:predict}) takes the input feature matrix, trained weight matrices, trained bias vectors, sigmoid activation function, and then selects the index of the neuron with the highest activation for each. Then predicting the result.
+
+\begin{algorithm}[H]
+\SetAlgoLined
+\label{algo:loop}
+\caption{Repeated ANN Training Across Iteration Settings}
+\KwIn{Input:} Training data $X_{train}$, labels $y_{train}$, test data $X_{test}$, labels $y_{test}$, 
+learning rate $\eta$, hidden size $h$, output size $k$, iteration list $n\_iter\_values$, number of runs $R = 10$\\
+\KwOut{Output:} Accuracies Over Iterations and Averages and Deviation
+
+\BlankLine
+Initialize an empty list of lists $Accuracies \leftarrow [\,]$\;
+
+\For{$run \leftarrow 1$ \KwTo $R$}{
+    Initialize empty list $run\_accuracies \leftarrow [\,]$\;
+
+    \ForEach{$n_i \in n\_iter\_values$}{
+        Randomly initialize weights $W_1$, $W_2$ and biases $b_1$, $b_2$\;
+
+        \For{$t \leftarrow 1$ \KwTo $n_i$}{
+            \tcc{--- Forward Pass ---}
+            $H_{in} \leftarrow X_{train} W_1 + b_1$\;
+            $H_{out} \leftarrow \sigma(H_{in})$\;
+            $O_{in} \leftarrow H_{out} W_2 + b_2$\;
+            $O_{out} \leftarrow \sigma(O_{in})$\;
+
+            \tcc{--- Backward Pass ---}
+            $E \leftarrow y_{train} - O_{out}$\;
+            $\delta_{out} \leftarrow E \odot \sigma'(O_{out})$\;
+            $E_{hidden} \leftarrow \delta_{out} W_2^T$\;
+            $\delta_{hidden} \leftarrow E_{hidden} \odot \sigma'(H_{out})$\;
+
+            \tcc{--- Weight Updates ---}
+            $W_2 \leftarrow W_2 + \eta H_{out}^T \delta_{out}$\;
+            $b_2 \leftarrow b_2 + \eta \sum \delta_{out}$\;
+            $W_1 \leftarrow W_1 + \eta X_{train}^T \delta_{hidden}$\;
+            $b_1 \leftarrow b_1 + \eta \sum \delta_{hidden}$\;
+        }
+
+        \tcc{--- Evaluate Model ---}
+        $H_{test} \leftarrow \sigma(X_{test}W_1 + b_1)$\;
+        $O_{test} \leftarrow \sigma(H_{test}W_2 + b_2)$\;
+        $Predictions \leftarrow \arg\max(O_{test})$\;
+        $Accuracy \leftarrow$ proportion of correct predictions\;
+        Append $Accuracy$ to $run\_accuracies$\;
+
+        \tcc{--- Show Weights ---}
+        Print matrices $W_1$ and $W_2$\;
+    }
+    Append $run\_accuracies$ to $Accuracies$\;
+}
 
 
-\begin{tikzpicture}
-\begin{axis}[
-    width=13cm,
-    height=8cm,
-    xlabel={Number of training iterations ($n\_iter$)},
-    ylabel={Test accuracy (\%)},
-    title={ANN test accuracy vs $n\_iter$},
-    grid=major,
-    ymin=0, ymax=105,
-    xmin=0, xmax=10500,
-    xtick={10,100,500,1000,1500,2500,5000,10000},
-    xticklabel style={rotate=45},
-    scaled x ticks=false,
-    ytick={0,20,40,60,80,100},
-    mark size=2.5pt 
-]
+\end{algorithm}
 
-\addplot[
-    color=blue,
-    mark=*,
-    thick
-] coordinates {
-    (10,26)
-    (100,68)
-    (500,95)
-    (1000,92)
-    (1500,68)
-    (2500,92)
-    (5000,100)
-    (10000,68)
-};
+This algorithm (algorithm \ref{algo:loop}) takes the neural network and runs each amount of iterations 10 times then displaying the accuracies and storing the data so that it can be put into a box and whisker plot later.  (algorithm \ref{algo:loop}), essentially takes the algorithms seen in (algorithm \ref{algo:predict})  and  (algorithm \ref{algo:backpropogation})  and loops them in order to create more data that gives the user a better representation of the accuracies.
 
-\end{axis}
-\end{tikzpicture}
-This plot displays how the accuracy ended up with each value of iterations in the for loop. 
+\begin{algorithm}[H]
+\caption{Generate Box-and-Whisker Plot of ANN Test Accuracies}
+\label{algo:boxplot}
+\KwIn{Input:} Accuracy results $AllAccuracies$, iteration values $n\_iter\_values$\\
+\KwOut{Output:} Box-and-whisker plot showing accuracy distribution
 
-\section{Final Thoughts}
-Over the course of the last week I adapted and ran this code over 100 times and was unable to find complete consistency. Regardless of how I changed the weights, sometimes iterations would perform incredibly poorly and leave random spikes where I do not think they should have. There was consistency with the 10, 100, and 500 iteration amounts all being poor but with the greater iterations it seemed to not have a consistent pattern and it was difficult to find what the correct amount of iterations would be. I would guess it to be somewhere between 1000 and 2500 but sometimes that middleground would perform poorly. After running the same could upwards up 10 times as well things would begin to plateau and then suddenly change completely with no change done to the source code. At this point, these are where my questions lie and I am eager to learn more and figure out why that may be since I think I have a decent understadnign of how the weights and overfitting works.
+\BlankLine
+Initialize a new figure with size $(10, 6)$\;
+
+Create boxplot using data $AllAccuracies$ with visual settings:\;
+\Indp
+    Set box color to light blue and border color to navy\;
+    Set median line color to red\;
+    Set whisker and cap colors to gray\;
+    Enable filled boxes (\texttt{patch\_artist = True})\;
+\Indm
+
+Set x-axis tick positions to $1, 2, \ldots, \text{len}(n\_iter\_values)$\;
+Label x-axis ticks with corresponding $n\_iter\_values$ rotated $45^\circ$\;
+Set x-axis label to ``Number of Training Iterations (n\_iter)''\;
+Set y-axis label to ``Test Accuracy (\%)''\;
+
+Set plot title to ``Distribution of Test Accuracies (10 Runs per n\_iter)''\;
+Enable grid lines with dashed gray style and $\alpha = 0.6$\;
+Adjust layout for proper spacing using \texttt{tight\_layout()}\;
+Display the plot\;
+
+\end{algorithm}
+This algorithm (algorithm \ref{algo:boxplot}), Takes the data stored from (algorithm \ref{algo:loop}) and prints out the data neatly in a box and whisker plot so that the data is easier to comprehend and we begin to see a shape of how the amount of iterations affects the accuracy of the ANN.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.85\textwidth]{C:/Users/jackd/Desktop/ifsa research/directed research/mini_project_2/figures/0.25-eta0.01.png}
+    \caption{Distribution of ANN Test Accuracies over 10 Runs for Each Training Iteration Setting.}
+    \label{fig:accuracy_boxplot}
+\end{figure}
+
+\section{Commentary on Figure 1}
+This Figure, (figure \ref{fig:accuracy_boxplot}) shows a box and whisker plot showing the max, min, median, and two quartiles of accuracies over the 10 runs of each iteration. It becomes clear in this plot that 10, 500, and 500 iterations do not provide high accuracies on the data likely due to simply not having enough iterations for the ANN to learn and give a decent prediction. All of the iteracies between 1,000 and 10,000 show very similar results in terms of accuracies and it begins to plateau. Based off this knowledge, running the code with 5,000 and 10,000 iteracies can be seen as not as efficient as it takes far longer to run the network and provides similar results to the results of the 1,000, 1,500, and 2,500 iteracies runs. 
+
+
+
+\bibliographystyle{plain}
+\bibliography{ann.bib}
 \end{document}
 
 

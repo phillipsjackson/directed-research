@@ -91,35 +91,63 @@ ann.show_weight()
 
 print("Create and fit ANN: ")
 
-# --- Replacement: collect accuracy results and plot them ---
-n_iter_values = [10,100,500,1000,1500,2500,5000,10000]
 accuracies_pct = []
 
+
+# --- Load and prepare dataset ---
+df = pd.read_csv("iris_dataset.csv")
+X_full = df.iloc[:, 0:4].values
+y_full = df[["target"]].values
+encoder = OneHotEncoder(sparse_output=False)
+y_full = encoder.fit_transform(y_full)
+
+# --- Define iteration values ---
+n_iter_values = [10, 100, 500, 1000, 1500, 2500, 5000, 10000]
+all_accuracies = []  # store 10 accuracies for each n_iter
+
 for ni in n_iter_values:
-    ann = ANN(input_size=4, hidden_size=4, output_size=3, eta=0.05, n_iter=ni)
-    ann.fit(train_data, train_labels)
-    print(f"done (n_iter={ni})")
+    run_accuracies = []
+    print(f"\n=== Testing n_iter = {ni} ===")
 
-    test_preds = ann.predict(test_data)
-    test_labels_indices = np.argmax(test_labels, axis=1)
-    acc = np.mean(test_preds == test_labels_indices)
-    accuracies_pct.append(acc * 100.0)  # store percent
-    print("Test predictions:", test_preds)
-    print("True labels:", test_labels_indices)
-    print("Accuracy on test data: ", round(acc * 100, 2), "%")
+    for run in range(10):
+        # Shuffle and split each run
+        X, y = shuffle(X_full, y_full, random_state=None)
+        train_data, test_data, train_labels, test_labels = train_test_split(
+            X, y, test_size=0.25
+        )
 
-# Plot results
-plt.figure(figsize=(8,5))
-plt.plot(n_iter_values, accuracies_pct, marker='o', linestyle='-')
-plt.xscale('log')  # optional: makes wide range easier to read
-plt.xticks(n_iter_values, labels=[str(x) for x in n_iter_values], rotation=45)
-plt.xlabel('Number of training iterations (n_iter)')
-plt.ylabel('Test accuracy (%)')
-plt.title('ANN test accuracy vs n_iter')
-plt.grid(True)
+        # Train model
+        ann = ANN(input_size=4, hidden_size=4, output_size=3, eta=0.01, n_iter=ni)
+        ann.fit(train_data, train_labels)
+
+        # Predict
+        test_preds = ann.predict(test_data)
+        test_labels_indices = np.argmax(test_labels, axis=1)
+        acc = np.mean(test_preds == test_labels_indices) * 100
+        run_accuracies.append(acc)
+        print(f"Run {run+1}/10 - Accuracy: {round(acc, 2)}%")
+
+    all_accuracies.append(run_accuracies)
+
+# --- Box & Whisker Plot ---
+plt.figure(figsize=(10, 6))
+plt.boxplot(
+    all_accuracies,
+    patch_artist=True,
+    boxprops=dict(facecolor="lightblue", color="navy"),
+    medianprops=dict(color="red"),
+    whiskerprops=dict(color="gray"),
+    capprops=dict(color="gray"),
+)
+plt.xticks(range(1, len(n_iter_values) + 1), n_iter_values, rotation=45)
+plt.xlabel("Number of Training Iterations (n_iter)")
+plt.ylabel("Test Accuracy (%)")
+plt.title("Distribution of Test Accuracies (10 Runs per n_iter)")
+plt.grid(True, linestyle="--", alpha=0.6)
 plt.tight_layout()
-plt.savefig('accuracy_vs_niter.png', dpi=150)
 plt.show()
 
-
-ann.show_weight()
+# --- Summary stats ---
+print("\n=== Summary Statistics ===")
+for ni, accs in zip(n_iter_values, all_accuracies):
+    print(f"n_iter={ni:<6}: mean={np.mean(accs):.2f}%, std={np.std(accs):.2f}%")
