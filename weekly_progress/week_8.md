@@ -33,4 +33,5 @@
 -Watched youtube videos on how to get started coding an ai in assetto corsa, read a bit as well.
 - https://www.assettocorsa.net/forum/index.php?threads%2Fimprove-ai-using-ai_hints-ini-full-list-of-variables-and-explanation.45215%2F
 - https://www.youtube.com/watch?v=FfMRWYivwU8
+- https://www.overtake.gg/downloads/ai-line-helper.16016/
 
