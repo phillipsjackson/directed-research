@@ -6,7 +6,7 @@
 ### Links
 
 - https://assettocorsamods.net/threads/getting-started-with-ac-app-developing.716/
-
+- https://github.com/ckendell/ACAppTutorial/blob/master/ACAppTutorial.md
 
 
 # TODO for next week:
