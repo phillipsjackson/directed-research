@@ -31,4 +31,6 @@
 -Figured out how the ai in assetto corsa works and how to race 2 cars against each other
 -Dowloaded a custom shaders patch and the current ferrrari f1 rendering into the game
 -Watched youtube videos on how to get started coding an ai in assetto corsa, read a bit as well.
+- https://www.assettocorsa.net/forum/index.php?threads%2Fimprove-ai-using-ai_hints-ini-full-list-of-variables-and-explanation.45215%2F
+- https://www.youtube.com/watch?v=FfMRWYivwU8
 
